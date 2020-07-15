@@ -13,13 +13,12 @@ import Device from '../components/device'
 import BluetoothSerial from 'react-native-bluetooth-serial-next'
 
 function BluetoothList(props){
-
     const [list, setList] = useState([]);
     const [bolEnable, setBolEnable] = useState(false);
 
     const renderEmpty = () => <Empty text='No Devices'/>
     const renderItem = ({item}) => {
-        return <Device {...item} iconLeft={require('../icons/smartphone.png')} iconRight={require('../icons/smartphone.png')}/>
+        return <Device {...item} iconLeft={require('../../icons/smartphone.png')} iconRight={require('../icons/smartphone.png')}/>
     }
 
     /*useEffect(()=>{
