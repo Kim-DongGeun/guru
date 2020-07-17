@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import Seperator from './seperator'
 
-export default class Lecture extends React.Component{
+export default class Students extends React.Component{
     render(){
         return (
             <>
@@ -20,21 +20,14 @@ export default class Lecture extends React.Component{
                 <View style={styles.container}>
                     <View style={styles.container_text}>
                         <Text style={styles.title}>
-                            {this.props.name}
+                            {this.props.STUDENTNAME}
                         </Text>
                         <Text style={styles.name}>
-                            {this.props.PROFESSOR}
+                            {this.props.STUDENTNUM}
                         </Text>
                     </View>
                     <View style={styles.container_text_left}>
-                        <Text style={styles.time}>{this.props.DAYTIME}</Text>
-                    </View>
-                    <View style={{justifyContent:'center'}}>
-                        <Button 
-                            color="#000000" 
-                            title="DEL"
-                            onPress={this.props.action}
-                        />
+                        <Text style={styles.time}>{this.props.GRADE}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -59,29 +52,28 @@ const styles=StyleSheet.create({
         //borderWidth:1
     },
     time:{
-        fontSize:14,
+        flex:1,
+        justifyContent:'center'
     },
     title: {
-        paddingVertical:4,
-        fontSize: 18,
+        fontSize: 16,
+        paddingVertical:2,
         color: '#000',
     },
     container_text: {
         flex: 1,
         //flexDirection: 'column',
-        marginLeft: 12,
+        marginLeft: 20,
         alignItems:'baseline',
     },
     container_text_left: {
-        flex: 1.5,
-        justifyContent:'flex-end',
-        marginLeft:10
+        flex: 1,
         //flexDirection: 'column',
-        //borderWidth:1
-
+        marginRight: 12,
+        alignItems:'flex-end',
     },
     name : {
-        fontSize: 13,
+        fontSize: 12,
         fontStyle: 'italic',
     },
 })

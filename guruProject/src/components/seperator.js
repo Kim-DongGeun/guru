@@ -22,9 +22,8 @@ function Seperator(props){
 const styles=StyleSheet.create({
     Seperator:{
         flex:1,
-        borderTopWidth:1,
-        marginLeft:60,
-        marginRight:25,
+        borderTopWidth:2,
+        marginHorizontal:20,
         borderColor:'#eceff1'
     }
 })

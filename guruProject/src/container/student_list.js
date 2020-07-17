@@ -1,33 +1,54 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Text, StyleSheet, View, FlatList, AsyncStorage, Alert } from "react-native";
 import { Container, List, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, ListItem } from 'native-base'
 import {Col, Row, Grid} from 'react-native-easy-grid'
+import Student from '../components/students'
+import Empty_lecture from '../components/empty_lecture'
 
 export default function Student_list({ navigation, route, props }) {
-    const [student_list, setStudent_list] = useState([{key:'1', value:'2'},{key:'1', value:'2'},{key:'1', value:'2'},{key:'1', value:'2'}])
+    const [student_list, setStudent_list] = useState([])
 
-    //const {name} = route.params
-    //const {title} = route.params
+    const {name} = route.params
+    const {PROFESSOR} = route.params
 
-    const _renderItem = ({ item }) => (
-        <Text>{item.key, item.value}</Text>
-        //<Lecture name={item.name} title={item.title} time={item.time} move={() => this.props.navigation.navigate("Student_screen", item)} action={() => this._onPressButton(item)}/>
-    )
+    const _renderItem = ({ item }) => {
+        console.log(item.name)
+        return(
+            <Student {...item} move={() => this.props.navigation.navigate("Student_screen", item)} action={() => this._onPressButton(item)}/>
+        )
+    }
+
+    useEffect(() => {
+        fetch('http://54.90.237.101:9000/users')
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json)
+                setStudent_list(json)
+            })
+            .catch((error) => console.error(error))
+            //.finally(() => setLoading(false));
+        }, []);
+
+    const _renderEmpty = () => {
+        return (
+            <Empty_lecture text='No Lectures...' />
+        )
+    }
 
     return (
-        <View>
+        <View style={{backgroundColor:'#ffffff'}}>
             <View style={Styles.container}>
                 <View style={Styles.titleContainer}>
-                    <Text style={Styles.title}>title</Text>
+                    <Text style={Styles.title}>{name}</Text>
                 </View>
                 <View style={Styles.nameContainer}>
-                    <Text style={Styles.name}>name</Text>
+                    <Text style={Styles.name}>{PROFESSOR}</Text>
                 </View>
             </View>
             <FlatList
                 //style={{ width: "100%" }}
                 data={student_list}
-                //ListEmptyComponent={_renderEmpty}
+                ListEmptyComponent={_renderEmpty}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={_renderItem}
             />
@@ -41,10 +62,13 @@ const Styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
     },
     title: {
-        fontSize: 40,
+        paddingTop:8,
+        fontSize: 30,
     },
     name:{
-        fontSize:20     
+        fontSize:15,
+        paddingBottom:10,
+        paddingRight:10     
     },
     nameContainer:{
         flex:1,
