@@ -10,61 +10,9 @@ class LectureList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [
-                /*{ title: 'a', name: 'aa', time: "235:235" },
-                { title: "fwoie", name: 'b', time: "503295" },
-                { title: "foiwj", name: "oyoyow", time: "10:30~11:45" }*/
-            ],
-            dataSource: [
-                {
-                    title: "add", name: "han", time: "11:30~12:45"
-                },
-                {
-                    id: 2,
-                    name: "Bahrain"
-                },
-                {
-                    id: 3,
-                    name: "Canada"
-                },
-                {
-                    id: 4,
-                    name: "Denmark"
-                },
-                {
-                    id: 5,
-                    name: "Egypt"
-                },
-                {
-                    id: 6,
-                    name: "France"
-                },
-                {
-                    id: 7,
-                    name: "Greece"
-                },
-                {
-                    id: 8,
-                    name: "Hong Kong"
-                },
-                {
-                    id: 9,
-                    name: "India"
-                },
-                {
-                    id: 10,
-                    name: "Japan"
-                },
-                {
-                    id: 11,
-                    name: "Kenya"
-                },
-                {
-                    id: 12,
-                    name: "Liberia"
-                }
-            ],
-            placeHolderText: "강의, 교수명 검색",
+            data: [],
+            dataSource: [],
+            placeHolderText: "강의 검색",
             selectedText: this.placeHolderText
         };
 
@@ -76,6 +24,21 @@ class LectureList extends Component {
                 this.setState(JSON.parse(state));
             }
         });
+        fetch('http://54.90.237.101:9000/lecture')
+            .then((response) => response.json())
+            .then((json) => {
+                for(key in json){
+                    json[key].name = json[key].SUBJECTNAME
+                    delete json[key].SUBJECTNAME
+                }
+
+                this.setState({
+                    dataSource : json
+                })
+            })
+            .then(console.log(this.state.dataSource))
+            .catch((error) => console.error(error))
+            
     }
 
     _onPressButton(item){
@@ -101,7 +64,7 @@ class LectureList extends Component {
         Alert.alert("woeifj")
     }
     _renderItem = ({ item }) => (
-        <Lecture name={item.name} title={item.title} time={item.time} move={() => this.props.navigation.navigate("Student_screen", item)} action={() => this._onPressButton(item)}/>
+        <Lecture {...item} move={() => this.props.navigation.navigate("Student_screen", item)} action={() => this._onPressButton(item)}/>
     )
     async _selectedValue(index, item) {
         const { data } = this.state
